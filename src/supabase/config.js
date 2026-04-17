@@ -14,45 +14,53 @@ if (!isConfigured) {
   );
 }
 
-// Robust mock client for Demo Mode
+// Fixed mock client structure to perfectly mimic Supabase SDK
 const createMockClient = () => {
-  const handler = {
-    get(target, prop) {
-      if (['from', 'auth', 'storage'].includes(prop)) {
-        return (name) => createMockProxy(prop, name);
-      }
-      return () => createMockProxy();
-    }
+  const mockAuth = {
+    onAuthStateChange: (cb) => {
+      // Return a mock subscription object
+      return { data: { subscription: { unsubscribe: () => {} } } };
+    },
+    getSession: async () => ({ data: { session: null }, error: null }),
+    getUser: async () => ({ data: { user: null }, error: null }),
+    signInWithPassword: async ({ email }) => ({ data: { user: { id: 'mock-1', email } }, error: null }),
+    signUp: async ({ email, data }) => ({ data: { user: { id: 'mock-1', email, user_metadata: data } }, error: null }),
+    signOut: async () => ({ error: null }),
   };
 
-  const createMockProxy = (type, name) => {
-    const mock = {
-      // Database mocking
-      select: () => mock,
-      insert: async (data) => ({ data, error: null }),
-      update: () => mock,
-      delete: () => mock,
-      eq: () => mock,
-      order: () => mock,
-      limit: () => mock,
-      single: async () => ({ data: (mockDb[name] || [])[0], error: null }),
-      maybeSingle: async () => ({ data: (mockDb[name] || [])[0], error: null }),
-      then: (resolve) => resolve({ data: mockDb[name] || [], error: null }),
-      
-      // Auth mocking
-      onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } }),
-      signUp: async ({ email, data }) => ({ data: { user: { id: 'mock-1', email, user_metadata: data } }, error: null }),
-      signInWithPassword: async ({ email }) => ({ data: { user: { id: 'mock-1', email } }, error: null }),
-      signOut: async () => ({ error: null }),
-      
-      // Storage mocking
+  const mockStorage = {
+    from: (bucket) => ({
       getPublicUrl: (path) => ({ data: { publicUrl: path } }),
-      remove: async () => ({ error: null })
-    };
-    return new Proxy(mock, handler);
+      remove: async () => ({ error: null }),
+      upload: async () => ({ data: { path: 'mock-path' }, error: null }),
+    }),
   };
 
-  return new Proxy({}, handler);
+  const createDbApi = (tableName) => {
+    const api = {
+      select: () => api,
+      eq: () => api,
+      maybeSingle: async () => ({ data: (mockDb[tableName] || [])[0], error: null }),
+      single: async () => ({ data: (mockDb[tableName] || [])[0], error: null }),
+      order: () => api,
+      limit: () => api,
+      insert: async (data) => ({ data, error: null }),
+      update: () => api,
+      delete: () => api,
+      then: (resolve) => {
+        // This handles cases like: await supabase.from('table').select('*')
+        resolve({ data: mockDb[tableName] || [], error: null });
+        return { catch: () => {} };
+      }
+    };
+    return api;
+  };
+
+  return {
+    auth: mockAuth,
+    storage: mockStorage,
+    from: (tableName) => createDbApi(tableName),
+  };
 };
 
 // Safe storage adapter
