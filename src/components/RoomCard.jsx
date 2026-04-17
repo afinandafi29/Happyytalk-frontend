@@ -98,6 +98,7 @@ const RoomCard = ({ room, currentUser: propCurrentUser, onTopicUpdated, highligh
                     handleShare={handleShare} handleJoinRoom={handleJoinRoom}
                     setShowDeleteConfirm={setShowDeleteConfirm} openProfile={openProfile}
                     scheduled_start_time={room.scheduled_start_time}
+                    participants={participants}
                 />
 
                 <style>{`@keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>

@@ -4,7 +4,7 @@ import { FaTrash } from 'react-icons/fa';
 import { deleteCommentApi } from '../../api/commentApi';
 
 const Comment = ({ comment, currentUser, onCommentDeleted }) => {
-    const author = comment.author || comment.profile || { username: 'Unknown User', avatar_url: 'https://via.placeholder.com/150' };
+    const author = comment.author || comment.profile || { username: 'Unknown User', avatar_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Avatar' };
 
     const handleDelete = async (e) => {
         e.stopPropagation();
@@ -31,7 +31,7 @@ const Comment = ({ comment, currentUser, onCommentDeleted }) => {
                     className="flex-shrink-0"
                 >
                     <img
-                        src={author.avatar_url || 'https://via.placeholder.com/150'}
+                        src={author.avatar_url || 'https://api.dicebear.com/7.x/avataaars/svg?seed=Avatar'}
                         alt={author.username}
                         className="w-10 h-10 rounded-full object-cover ring-2 ring-gray-700 transition-transform duration-200 hover:scale-105"
                     />

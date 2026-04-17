@@ -9,7 +9,7 @@ const Header = ({ onMenuClick, onProfileClick, isHomePage, isShortsView }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   // Default placeholder image
-  const defaultAvatar = "https://via.placeholder.com/150";
+  const defaultAvatar = "https://api.dicebear.com/7.x/avataaars/svg?seed=Avatar";
 
   // Get profile data including avatar_url
   useEffect(() => {

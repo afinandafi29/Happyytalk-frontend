@@ -7,60 +7,53 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 export const isConfigured = !!(supabaseUrl && supabaseAnonKey);
 export const isPlaceholder = !isConfigured;
 
-if (!isConfigured) {
-  console.warn(
-    '[Demo Mode] Happytalk is running with mock data. ' +
-    'Real database connection requires VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.'
-  );
-}
 
-// Fixed mock client structure to perfectly mimic Supabase SDK
+
+// Robust mock client for Demo Mode
 const createMockClient = () => {
-  const mockAuth = {
-    onAuthStateChange: (cb) => {
-      // Return a mock subscription object
-      return { data: { subscription: { unsubscribe: () => {} } } };
-    },
-    getSession: async () => ({ data: { session: null }, error: null }),
-    getUser: async () => ({ data: { user: null }, error: null }),
-    signInWithPassword: async ({ email }) => ({ data: { user: { id: 'mock-1', email } }, error: null }),
-    signUp: async ({ email, data }) => ({ data: { user: { id: 'mock-1', email, user_metadata: data } }, error: null }),
-    signOut: async () => ({ error: null }),
-  };
-
-  const mockStorage = {
-    from: (bucket) => ({
-      getPublicUrl: (path) => ({ data: { publicUrl: path } }),
-      remove: async () => ({ error: null }),
-      upload: async () => ({ data: { path: 'mock-path' }, error: null }),
-    }),
-  };
-
-  const createDbApi = (tableName) => {
-    const api = {
-      select: () => api,
-      eq: () => api,
-      maybeSingle: async () => ({ data: (mockDb[tableName] || [])[0], error: null }),
-      single: async () => ({ data: (mockDb[tableName] || [])[0], error: null }),
-      order: () => api,
-      limit: () => api,
+  const createMockProxy = (type, name) => {
+    const mock = {
+      // Database mocking
+      select: () => mock,
       insert: async (data) => ({ data, error: null }),
-      update: () => api,
-      delete: () => api,
-      then: (resolve) => {
-        // This handles cases like: await supabase.from('table').select('*')
-        resolve({ data: mockDb[tableName] || [], error: null });
-        return { catch: () => {} };
-      }
+      update: () => mock,
+      delete: () => mock,
+      eq: () => mock,
+      order: () => mock,
+      limit: () => mock,
+      single: async () => ({ data: (mockDb[name] || [])[0], error: null }),
+      maybeSingle: async () => ({ data: (mockDb[name] || [])[0], error: null }),
+      then: (resolve) => resolve({ data: mockDb[name] || [], error: null }),
+      
+      // Auth mocking
+      getSession: async () => ({ data: { session: null }, error: null }),
+      onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } }),
+      signUp: async ({ email, data }) => ({ data: { user: { id: 'mock-1', email, user_metadata: data } }, error: null }),
+      signInWithPassword: async ({ email }) => ({ data: { user: { id: 'mock-1', email } }, error: null }),
+      signOut: async () => ({ error: null }),
+      
+      // Storage mocking
+      getPublicUrl: (path) => ({ data: { publicUrl: path } }),
+      remove: async () => ({ error: null })
     };
-    return api;
+
+    return new Proxy(mock, {
+      get(target, prop) {
+        if (prop in target) return target[prop];
+        return () => createMockProxy();
+      }
+    });
   };
 
-  return {
-    auth: mockAuth,
-    storage: mockStorage,
-    from: (tableName) => createDbApi(tableName),
-  };
+  return new Proxy({}, {
+    get(target, prop) {
+      if (prop === 'auth') return createMockProxy('auth');
+      if (['from', 'storage'].includes(prop)) {
+        return (name) => createMockProxy(prop, name);
+      }
+      return () => createMockProxy();
+    }
+  });
 };
 
 // Safe storage adapter

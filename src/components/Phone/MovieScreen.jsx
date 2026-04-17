@@ -47,7 +47,7 @@ const MovieScreen = () => {
       const transformedMovies = data.titles?.map(movie => ({
         id: movie.id,
         title: movie.title,
-        poster: movie.poster || 'https://via.placeholder.com/300x450?text=No+Poster',
+        poster: movie.poster || 'https://images.unsplash.com/photo-1594908900066-3f47337549d8?w=300&h=450&fit=crop',
         rating: movie.user_rating || movie.imdb_rating || 'N/A',
         year: movie.year,
         type: movie.type
@@ -133,7 +133,7 @@ const MovieScreen = () => {
                 alt={movie.title}
                 className="w-full h-40 object-cover"
                 onError={(e) => {
-                  e.target.src = 'https://via.placeholder.com/300x450?text=No+Poster';
+                  e.target.src = 'https://images.unsplash.com/photo-1594908900066-3f47337549d8?w=300&h=450&fit=crop';
                 }}
               />
               <div className="p-2">

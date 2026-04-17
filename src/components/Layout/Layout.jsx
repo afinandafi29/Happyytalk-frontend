@@ -56,10 +56,7 @@ const Layout = () => {
   const [activeHomeView, setActiveHomeView] = useState('rooms');
   const [categoryVisible, setCategoryVisible] = useState(false);
 
-  const [banners, setBanners] = useState([]);
-  const [showBanner, setShowBanner] = useState(() => {
-    return localStorage.getItem('showBanner') !== 'false';
-  });
+
 
   const socket = useSocket();
   const [unreadCount, setUnreadCount] = useState(0);
@@ -147,13 +144,7 @@ const Layout = () => {
     else if (pathname === '/live') setActiveCategory('live');
   }, [pathname]);
 
-  useEffect(() => {
-    const fetchBanners = async () => {
-      const data = await getBannersApi();
-      setBanners(data);
-    };
-    if (isHomePage) fetchBanners();
-  }, [isHomePage]);
+
 
   useEffect(() => {
     fetchStatic();
@@ -331,16 +322,6 @@ const Layout = () => {
                     <div className="w-full px-4 flex flex-col items-center">
                       {isHomePage && (
                         <div className="w-full flex flex-col items-center">
-                          {/* Banner Section */}
-                          {showBanner && banners.length > 0 && (
-                            <div className="w-full max-w-7xl mt-8 mb-2 px-4">
-                              <BannerCarousel onClose={() => {
-                                setShowBanner(false);
-                                localStorage.setItem('showBanner', 'false');
-                              }} />
-                            </div>
-                          )}
-
                           <SearchBar
                             searchTerm={searchTerm}
                             onSearchChange={handleSearchChange}
@@ -348,8 +329,6 @@ const Layout = () => {
                               setSearchTerm('');
                               setTimeout(() => document.getElementById('search-input')?.focus(), 0);
                             }}
-                            showBanner={showBanner}
-                            bannersCount={banners.length}
                           />
 
                         </div>

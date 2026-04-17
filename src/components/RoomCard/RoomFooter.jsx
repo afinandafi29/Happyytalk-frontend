@@ -12,8 +12,12 @@ const RoomFooter = ({
     handleJoinRoom, 
     setShowDeleteConfirm, 
     openProfile,
+    participants,
     scheduled_start_time
 }) => {
+    const fallbackHost = participants && participants.length > 0 ? participants[0] : null;
+    const host = creator || fallbackHost;
+
     return (
         <div className="flex justify-between items-center w-full mt-auto" style={{ padding: '4px 2px' }}>
             <div
@@ -41,11 +45,11 @@ const RoomFooter = ({
                 justifyContent: 'center'
             }}>
                 <div 
-                    style={{ display: 'flex', alignItems: 'center', gap: '3px', cursor: creator ? 'pointer' : 'default' }}
+                    style={{ display: 'flex', alignItems: 'center', gap: '3px', cursor: host ? 'pointer' : 'default' }}
                     onClick={(e) => {
-                        if (creator && openProfile) {
+                        if (host && openProfile) {
                           e.stopPropagation();
-                          openProfile({...creator, id: creator.id || created_by});
+                          openProfile({...host, id: host.id || created_by});
                         }
                     }}
                 >
@@ -59,7 +63,7 @@ const RoomFooter = ({
                         onMouseEnter={e => e.currentTarget.style.color = '#fff'}
                         onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.7)'}
                     >
-                        {creator?.name || creator?.username || 'Guest Host'}
+                        {host?.name || host?.username || 'Guest Host'}
                     </span>
                 </div>
             </div>

@@ -1,7 +1,17 @@
 import { api } from './apiSetup';
-
+import { isPlaceholder } from '../supabase/config';
 
 export const getUserProfileApi = async (userId) => {
+    if (isPlaceholder) {
+        return {
+            id: userId,
+            username: 'DemoUser',
+            full_name: 'HappyTalk Demo',
+            avatar_url: `https://api.dicebear.com/7.x/avataaars/svg?seed=${userId}`,
+            bio: 'This is a demo profile.',
+            socials: { twitter: '@happytalk', website: 'happytalk.io' }
+        };
+    }
     try {
         const response = await api.get(`/users/profile/${userId}`);
         return response.data;
@@ -12,6 +22,16 @@ export const getUserProfileApi = async (userId) => {
 };
 
 export const getCurrentUserProfileApi = async () => {
+    if (isPlaceholder) {
+        return {
+            id: 'mock-user-1234',
+            username: 'DemoUser',
+            full_name: 'HappyTalk Demo',
+            avatar_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=DemoUser',
+            bio: 'This is a demo profile.',
+            socials: { twitter: '@happytalk', website: 'happytalk.io' }
+        };
+    }
     try {
         const response = await api.get(`/users/profile`);
         return response.data;
@@ -22,6 +42,9 @@ export const getCurrentUserProfileApi = async () => {
 };
 
 export const updateUserProfileApi = async (profileData) => {
+    if (isPlaceholder) {
+        return { message: 'Profile updated (mock)', profile: profileData };
+    }
     try {
         // The backend's updateUserProfile expects fields like username, bio, avatar_url, socials
         const response = await api.put(`/users/profile`, profileData);

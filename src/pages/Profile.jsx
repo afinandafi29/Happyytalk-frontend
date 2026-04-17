@@ -11,7 +11,7 @@ const initialProfileState = {
   name: 'User',
   username: 'User',
   bio: 'Welcome to my profile',
-  avatar_url: 'https://via.placeholder.com/150',
+  avatar_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Avatar',
   stats: { // These will likely come from separate queries or aggregated fields in profiles table
     following: 0,
     followers: 0,

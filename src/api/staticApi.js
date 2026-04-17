@@ -13,7 +13,7 @@ export const getStaticData = async () => {
       'Punjabi', 'Telugu', 'Marathi', 'Tamil', 'Gujarati', 'Kannada', 'Malayalam', 'Burmese', 
       'Khmer', 'Lao', 'Amharic', 'Swahili', 'Zulu', 'Xhosa', 'Afrikaans', 'Yoruba', 'Igbo',
       'Pashto', 'Kurdish', 'Azerbaijani', 'Uzbek', 'Kazakh', 'Kyrgyz', 'Tajik', 'Turkmen', 
-      'Mongolian', 'Tibetan', 'Nepali', 'Sinhala', 'Somali', 'Oromo', 'Amharic', 'Tigrinya', 
+      'Mongolian', 'Tibetan', 'Nepali', 'Sinhala', 'Somali', 'Oromo', 'Tigrinya', 
       'Malagasy', 'Georgian', 'Armenian', 'Basque', 'Catalan', 'Galician', 'Welsh', 'Irish', 
       'Scottish Gaelic', 'Breton', 'Esperanto', 'Latin', 'Sanskrit', 'Ancient Greek', 'Old English',
       'Icelandic', 'Faroese', 'Greenlandic', 'Lithuanian', 'Latvian', 'Estonian', 'Slovenian', 
