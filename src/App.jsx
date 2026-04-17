@@ -1,7 +1,6 @@
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
-import { isConfigured } from './supabase/config';
 import Home from './pages/Home';
 import Layout from './components/Layout/Layout';
 import './styles/main.css';
@@ -101,57 +100,7 @@ function PublicRoute({ children }) {
   return !currentUser ? children : <Navigate to="/" />;
 }
 
-// Configuration warning overlay (shown when Supabase keys are missing)
-function ConfigWarning() {
-  return (
-    <div style={{
-      height: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: '#0f0f0f',
-      color: '#fff',
-      fontFamily: "'Inter', system-ui, sans-serif",
-      textAlign: 'center',
-      padding: '24px',
-      gap: '16px',
-    }}>
-      <div style={{ fontSize: '3rem' }}>⚙️</div>
-      <h1 style={{ color: '#f97316', margin: 0, fontSize: '1.8rem' }}>Configuration Required</h1>
-      <p style={{ maxWidth: '520px', lineHeight: '1.7', color: '#aaa', margin: 0 }}>
-        Happytalk needs your Supabase credentials to function. Add them to your <strong>Netlify Environment Variables</strong> and trigger a new deploy.
-      </p>
-      <div style={{
-        background: '#1a1a1a',
-        border: '1px solid #333',
-        borderRadius: '10px',
-        padding: '20px 28px',
-        textAlign: 'left',
-        width: '100%',
-        maxWidth: '460px',
-      }}>
-        <p style={{ margin: '0 0 8px', color: '#888', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-          Required Variables
-        </p>
-        <code style={{ display: 'block', marginBottom: '8px', color: '#4ade80', fontSize: '0.95rem' }}>VITE_SUPABASE_URL</code>
-        <code style={{ display: 'block', color: '#4ade80', fontSize: '0.95rem' }}>VITE_SUPABASE_ANON_KEY</code>
-        <p style={{ fontSize: '0.78rem', color: '#666', marginTop: '14px', marginBottom: 0 }}>
-          📁 Find these values inside your <code style={{ color: '#aaa' }}>.env</code> file in your local project folder.
-        </p>
-      </div>
-      <p style={{ fontSize: '0.85rem', color: '#555', margin: 0 }}>
-        Netlify Dashboard → Site Settings → Build &amp; Deploy → Environment Variables
-      </p>
-    </div>
-  );
-}
-
 function App() {
-  if (!isConfigured) {
-    return <ConfigWarning />;
-  }
-
   return (
     <Router>
       <Suspense fallback={<div style={{ background: '#0f0f0f', height: '100vh' }} />}>
