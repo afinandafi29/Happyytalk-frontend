@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
+import { isConfigured } from './supabase/config';
 import Home from './pages/Home';
 import Layout from './components/Layout/Layout';
 import './styles/main.css';
@@ -100,9 +101,34 @@ function PublicRoute({ children }) {
   return !currentUser ? children : <Navigate to="/" />;
 }
 
+// Subtle Demo Mode Banner
+function DemoBanner() {
+  if (isConfigured) return null;
+  return (
+    <div style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      backgroundColor: '#f97316',
+      color: 'white',
+      textAlign: 'center',
+      padding: '4px 10px',
+      fontSize: '11px',
+      fontWeight: 'bold',
+      zIndex: 9999,
+      textTransform: 'uppercase',
+      letterSpacing: '1px'
+    }}>
+      Demo Mode - Showing sample data. Add Supabase keys to Netlify for real database connection.
+    </div>
+  );
+}
+
 function App() {
   return (
     <Router>
+      <DemoBanner />
       <Suspense fallback={<div style={{ background: '#0f0f0f', height: '100vh' }} />}>
         <Routes>
           {/* Auth routes */}

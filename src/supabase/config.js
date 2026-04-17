@@ -1,44 +1,67 @@
 import { createClient } from '@supabase/supabase-js';
+import { mockDb } from './mockDb';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-// Export whether the app is properly configured
 export const isConfigured = !!(supabaseUrl && supabaseAnonKey);
-
-// isPlaceholder is true when running without real Supabase credentials
 export const isPlaceholder = !isConfigured;
 
 if (!isConfigured) {
   console.warn(
-    '[Happytalk] Supabase environment variables are missing.\n' +
-    'Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to your Netlify environment variables.\n' +
-    'Running in demo/offline mode.'
+    '[Demo Mode] Happytalk is running with mock data. ' +
+    'Real database connection requires VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.'
   );
 }
 
-// Safe storage adapter to handle Brave/Incognito/Blocked LocalStorage
-const safeStorage = {
-  getItem: (key) => {
-    try { return localStorage.getItem(key); } catch { return null; }
-  },
-  setItem: (key, value) => {
-    try { localStorage.setItem(key, value); } catch { /* ignore */ }
-  },
-  removeItem: (key) => {
-    try { localStorage.removeItem(key); } catch { /* ignore */ }
-  }
+// Robust mock client for Demo Mode
+const createMockClient = () => {
+  const handler = {
+    get(target, prop) {
+      if (['from', 'auth', 'storage'].includes(prop)) {
+        return (name) => createMockProxy(prop, name);
+      }
+      return () => createMockProxy();
+    }
+  };
+
+  const createMockProxy = (type, name) => {
+    const mock = {
+      // Database mocking
+      select: () => mock,
+      insert: async (data) => ({ data, error: null }),
+      update: () => mock,
+      delete: () => mock,
+      eq: () => mock,
+      order: () => mock,
+      limit: () => mock,
+      single: async () => ({ data: (mockDb[name] || [])[0], error: null }),
+      maybeSingle: async () => ({ data: (mockDb[name] || [])[0], error: null }),
+      then: (resolve) => resolve({ data: mockDb[name] || [], error: null }),
+      
+      // Auth mocking
+      onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } }),
+      signUp: async ({ email, data }) => ({ data: { user: { id: 'mock-1', email, user_metadata: data } }, error: null }),
+      signInWithPassword: async ({ email }) => ({ data: { user: { id: 'mock-1', email } }, error: null }),
+      signOut: async () => ({ error: null }),
+      
+      // Storage mocking
+      getPublicUrl: (path) => ({ data: { publicUrl: path } }),
+      remove: async () => ({ error: null })
+    };
+    return new Proxy(mock, handler);
+  };
+
+  return new Proxy({}, handler);
 };
 
-// Use real values or safe placeholder strings — createClient NEVER receives undefined
-const resolvedUrl = supabaseUrl || 'https://placeholder.supabase.co';
-const resolvedKey = supabaseAnonKey || 'placeholder-anon-key-not-configured';
+// Safe storage adapter
+const safeStorage = {
+  getItem: (key) => { try { return localStorage.getItem(key); } catch { return null; } },
+  setItem: (key, value) => { try { localStorage.setItem(key, value); } catch { } },
+  removeItem: (key) => { try { localStorage.removeItem(key); } catch { } }
+};
 
-export const supabase = createClient(resolvedUrl, resolvedKey, {
-  auth: {
-    autoRefreshToken: isConfigured,
-    persistSession: isConfigured,
-    detectSessionInUrl: isConfigured,
-    storage: safeStorage,
-  },
-});
+export const supabase = isConfigured 
+  ? createClient(supabaseUrl, supabaseAnonKey, { auth: { storage: safeStorage } })
+  : createMockClient();
