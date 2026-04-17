@@ -100,7 +100,51 @@ function PublicRoute({ children }) {
   return !currentUser ? children : <Navigate to="/" />;
 }
 
+import { isConfigured } from './supabase/config';
+
 function App() {
+  if (!isConfigured) {
+    return (
+      <div style={{
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#0a0a0a',
+        color: '#fff',
+        fontFamily: 'system-ui, sans-serif',
+        textAlign: 'center',
+        padding: '20px'
+      }}>
+        <h1 style={{ color: '#ff4b4b' }}>⚠️ Configuration Required</h1>
+        <p style={{ maxWidth: '600px', lineHeight: '1.6', color: '#ccc' }}>
+          Welcome to Happytalk! To get the site running on Netlify, you need to add your Supabase credentials 
+          to your Netlify Dashboard.
+        </p>
+        <div style={{
+          backgroundColor: '#1a1a1a',
+          padding: '20px',
+          borderRadius: '8px',
+          marginTop: '20px',
+          textAlign: 'left',
+          width: '100%',
+          maxWidth: '500px'
+        }}>
+          <h3 style={{ marginTop: 0 }}>Add these to Netlify Settings:</h3>
+          <code style={{ display: 'block', marginBottom: '10px', color: '#00ff00' }}>VITE_SUPABASE_URL</code>
+          <code style={{ display: 'block', color: '#00ff00' }}>VITE_SUPABASE_ANON_KEY</code>
+          <p style={{ fontSize: '0.8em', color: '#888', marginTop: '15px' }}>
+            You can find these in the <code>.env</code> file of your <code>Happyytalk-2.2-main 3</code> folder.
+          </p>
+        </div>
+        <p style={{ marginTop: '20px', fontSize: '0.9em' }}>
+          After adding them, trigger a new deploy and this message will disappear!
+        </p>
+      </div>
+    );
+  }
+
   return (
     <Router>
       <Suspense fallback={null}>
