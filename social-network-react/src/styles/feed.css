@@ -1,0 +1,237 @@
+/* ---------- NEW MOMENTS UI UX ---------- */
+:root {
+  --bg: #0f0f12;
+  --card: #16181e;
+  --text: #e0e0ff;
+  --text-sec: #a0a0cc;
+  --border: #222;
+  --accent: #bb86fc;
+  --like: #ff5e7a;
+  --gray: #777;
+}
+
+[data-theme="light"] {
+  --bg: #f5f5f7;
+  --card: #ffffff;
+  --text: #1d1d1f;
+  --text-sec: #6e6e73;
+  --border: #d2d2d7;
+  --accent: #007aff;
+  --like: #ff2d55;
+  --gray: #8e8e93;
+}
+
+.feed-content-container {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  min-height: 100vh;
+  transition: background 0.3s, color 0.3s;
+  width: 100%;
+  max-width: 620px;
+  margin: 0 auto;
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+}
+
+.feed-header-new {
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  backdrop-filter: blur(12px);
+  z-index: 100;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo-moment {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--accent), #00c6ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.search-bar-new {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 10px 16px;
+  margin: 12px 16px;
+  color: var(--text-sec);
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-bar-new input {
+  background: transparent;
+  border: none;
+  color: var(--text);
+  outline: none;
+  width: 100%;
+}
+
+.tabs-new {
+  display: flex;
+  overflow-x: auto;
+  padding: 8px 16px;
+  margin-bottom: 16px;
+  gap: 12px;
+  scrollbar-width: none;
+}
+
+.tabs-new::-webkit-scrollbar {
+  display: none;
+}
+
+.tab-new {
+  padding: 8px 20px;
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--text-sec);
+  font-size: 0.92rem;
+  white-space: nowrap;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+}
+
+.tab-new.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.moment-card {
+  background: var(--card);
+  border-radius: 16px;
+  margin: 0 16px 20px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+
+.moment-header {
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.moment-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #444;
+  background-size: cover;
+  background-position: center;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+}
+
+.moment-user-info {
+  flex: 1;
+}
+
+.moment-username {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.moment-meta {
+  font-size: 0.82rem;
+  color: var(--text-sec);
+  margin-top: 2px;
+}
+
+.moment-content {
+  padding: 0 16px 12px;
+  font-size: 0.96rem;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.moment-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 4px;
+  margin: 8px 16px;
+}
+
+.moment-gallery img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+  border-radius: 8px;
+}
+
+.moment-actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 16px 12px;
+  color: var(--text-sec);
+  font-size: 1.05rem;
+}
+
+.moment-action-group {
+  display: flex;
+  gap: 24px;
+}
+
+.moment-action-btn {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s;
+}
+
+.moment-action-btn:hover {
+  color: var(--accent);
+}
+
+.moment-like-btn.liked {
+  color: var(--like);
+}
+
+.post-btn-floating {
+  position: fixed;
+  bottom: 80px; /* Above bottom navbar */
+  right: 24px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  font-size: 2rem;
+  border: none;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  cursor: pointer;
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.post-btn-floating:hover {
+  transform: scale(1.1);
+  background: #a370f7;
+}
+
+@media (min-width: 768px) {
+  .feed-content-container {
+    max-width: 680px;
+  }
+}

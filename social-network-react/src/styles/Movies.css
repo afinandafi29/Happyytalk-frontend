@@ -1,0 +1,399 @@
+/* Netflix Cinematic Style for Happytalk Movies */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+.netflix-container {
+    background-color: #141414;
+    color: #fff;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+}
+
+.netflix-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: #000;
+}
+
+.netflix-logo-anim {
+    color: #e50914;
+    font-size: 3rem;
+    font-weight: 900;
+    letter-spacing: 0.1rem;
+    margin-bottom: 2rem;
+    animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.5; transform: scale(0.95); }
+    50% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0.5; transform: scale(0.95); }
+}
+
+.loader-circle {
+    width: 3rem;
+    height: 3rem;
+    border: 3px solid rgba(255,255,255,0.1);
+    border-top: 3px solid #e50914;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Header Logic */
+.netflix-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 4%;
+    height: 68px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    transition: background-color 0.4s ease-in-out;
+}
+
+.netflix-header.scrolled {
+    background-color: #141414;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.header-left, .header-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.back-btn-netflix {
+    background: transparent;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+
+.back-btn-netflix:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.ht-movies-logo {
+    color: #e50914;
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.header-nav span {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: rgba(255,255,255,0.8);
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.header-nav span:hover {
+    color: #e5e5e5;
+}
+
+.header-icon {
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.header-icon:hover {
+    opacity: 1;
+}
+
+.user-avatar-mini {
+    width: 32px;
+    height: 32px;
+    background: #60a5fa;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Hero Section */
+.hero-section {
+    height: 85vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-left: 4%;
+}
+
+.hero-vignette {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(77deg, rgba(0,0,0,.6) 0, rgba(0,0,0,0) 85%),
+                linear-gradient(to top, #141414, transparent);
+    z-index: 2;
+}
+
+.hero-bg-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 3;
+    max-width: 40%;
+}
+
+.hero-title {
+    font-size: 4rem;
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 1.2rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.45);
+}
+
+.hero-description {
+    font-size: 1.2rem;
+    line-height: 1.4;
+    margin-bottom: 2rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.45);
+    opacity: 0.9;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.play-btn {
+    background: #fff;
+    color: #000;
+    border: none;
+    padding: 0.6rem 1.8rem;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.play-btn:hover { background: #e6e6e6; }
+
+.info-btn {
+    background: rgba(109, 109, 110, 0.7);
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1.8rem;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.info-btn:hover { background: rgba(109, 109, 110, 0.4); }
+
+/* Player Section */
+.main-player-section {
+    height: 90vh;
+    width: 100%;
+    background: #000;
+    position: relative;
+    padding-top: 68px;
+}
+
+.player-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.close-player-btn {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.close-player-btn:hover {
+    background: rgba(255,255,255,0.2);
+    transform: scale(1.1);
+}
+
+/* Rows and Rows of Content */
+.movie-rows-container {
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+    margin-top: -15vh;
+    position: relative;
+    z-index: 10;
+}
+
+.movie-row {
+    margin-bottom: 3.5rem;
+    padding-left: 4%;
+}
+
+.row-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #e5e5e5;
+}
+
+.row-posters {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    scrollbar-width: none;
+}
+
+.row-posters::-webkit-scrollbar { display: none; }
+
+.movie-poster-card {
+    min-width: 240px;
+    height: 135px;
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease-out;
+}
+
+.movie-poster-card:hover {
+    transform: scale(1.15);
+    z-index: 20;
+}
+
+.movie-poster-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.poster-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 12px;
+}
+
+.movie-poster-card:hover .poster-overlay {
+    opacity: 1;
+}
+
+.poster-actions {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.circle-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.5);
+}
+
+.poster-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #fff;
+    margin: 0;
+}
+
+/* Pagination Styles */
+.netflix-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 60px 0;
+    background: linear-gradient(to bottom, transparent, #141414);
+}
+
+.page-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 10px 24px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.page-btn:hover:not(.disabled) {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: #fff;
+}
+
+.page-btn.disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.page-indicator {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #b3b3b3;
+    letter-spacing: 1px;
+}
+
+/* Responsive fixes */
+@media (max-width: 768px) {
+    .hero-content { max-width: 80%; }
+    .hero-title { font-size: 2.5rem; }
+    .hero-description { font-size: 0.9rem; }
+    .desktop-only { display: none; }
+    .movie-poster-card { min-width: 180px; height: 100px; }
+}

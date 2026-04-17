@@ -1,0 +1,23 @@
+{
+  "name": "Happy Talk",
+  "short_name": "HappyTalk",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "description": "Happy Talk is a social networking platform where you can connect with friends and join discussion rooms.",
+  "orientation": "portrait",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/happytalk.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/happytalk.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

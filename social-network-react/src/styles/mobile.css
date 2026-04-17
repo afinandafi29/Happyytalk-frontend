@@ -1,0 +1,687 @@
+@keyframes slideUpFade {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mobile: General Layout */
+@media (max-width: 768px) {
+    /* Home container - Transparent back to show main wallpaper from reference */
+    .home-container {
+        padding: 0;
+        width: 100%;
+        overflow-x: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: transparent !important;
+    }
+
+    /* Page content container — fully transparent on mobile */
+    .page-content-container {
+        padding: 12px 12px 100px !important; 
+        width: 100% !important;
+        margin: 0 !important;
+        background: transparent !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Room grid - improved mobile layout from reference */
+    .room-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        padding: 0 8px !important;
+        gap: 12px !important;
+        width: 100% !important;
+    }
+
+    /* Room cards - Refined transparency & Fixed Height from reference */
+    .room-card {
+        width: 100% !important;
+        max-width: 480px !important;
+        margin: 0 0 12px 0 !important;
+        padding: 24px 20px 20px !important;
+        border-radius: 24px !important;
+        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        background: rgba(255, 255, 255, 0.05) !important; /* Truly transparent 'naked' glass */
+        backdrop-filter: blur(24px) !important;
+        -webkit-backdrop-filter: blur(24px) !important;
+        min-height: 280px !important; /* Matches reference folder's 280px size */
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    /* Avatar circles — larger 80px size from reference */
+    .room-avatar-circle {
+        width: 80px !important;
+        height: 80px !important;
+    }
+
+    /* Room title - smaller on mobile from reference */
+    .room-title {
+        font-size: 1.25rem !important;
+        text-align: center !important;
+        width: 100% !important;
+    }
+
+    /* Remove gap between consecutive avatar items */
+    .room-avatar-item + .room-avatar-item {
+        margin-left: 0;
+    }
+
+    /* Sidebar - controlled width for better UX */
+    .sidebar {
+        width: 280px !important;
+        max-width: 80% !important;
+        background: #000000 !important;
+        box-shadow: 15px 0 30px rgba(0, 0, 0, 0.8) !important;
+    }
+
+    .overlay.active {
+        opacity: 1;
+        visibility: visible;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(4px);
+    }
+
+    /* Header enhancements */
+    .header-section {
+        height: 60px !important;
+        padding: 0 10px !important;
+        background: rgba(0,0,0,0.8) !important;
+        backdrop-filter: blur(12px) !important;
+        border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+    }
+
+    .header-section h1 {
+        font-size: 1.1rem !important;
+        letter-spacing: 0.1em !important;
+    }
+
+    /* Space out avatars more from title */
+    .people-row {
+        flex: 1 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 5px 0 !important;
+        gap: 8px !important;
+        margin: 10px 0 !important;
+    }
+
+    .creator-badge img {
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    /* Join/Full/Lock buttons - better mobile size */
+    .join-room,
+    .join-room.room-full {
+        padding: 6px 12px !important;
+        font-size: 12px !important;
+    }
+
+    /* Sign in button in header */
+    .signin-button-header {
+        padding: 6px 12px !important;
+        font-size: 10px !important;
+        background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
+        border-radius: 20px !important;
+        border: none !important;
+        font-weight: bold !important;
+        box-shadow: 0 0 15px rgba(59, 130, 246, 0.5) !important;
+    }
+
+    .signin-button-header i {
+        font-size: 10px !important;
+    }
+
+    /* News Reel Styles - Immersive Overlay */
+    .news-reel-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        overflow-y: scroll;
+        scroll-snap-type: y mandatory;
+        background: #000;
+        z-index: 50;
+    }
+
+    .news-reel-item {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        scroll-snap-align: start;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        background: #000;
+    }
+
+    .reel-bg-container {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+    }
+
+    .reel-bg-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .reel-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, 
+            rgba(0,0,0,0.95) 0%, 
+            rgba(0,0,0,0.3) 40%, 
+            transparent 100%);
+        z-index: 2;
+    }
+
+    .reel-content {
+        position: relative;
+        z-index: 10;
+        padding: 40px 24px 120px; /* Space for bottom nav */
+        animation: slideUpFade 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    }
+
+    /* Hide all top UI elements including header, persistent nav, and action buttons in news view */
+    body:has(.news-reel-container) header,
+    body:has(.news-reel-container) .header-wrapper,
+    body:has(.news-reel-container) .layout-persistent-nav,
+    body:has(.news-reel-container) .action-buttons-mobile {
+        display: none !important;
+    }
+
+    .reel-meta {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .reel-source {
+        background: #3b82f6;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .reel-divider {
+        width: 1px;
+        height: 12px;
+        background: rgba(255,255,255,0.2);
+    }
+
+    .reel-date {
+        color: rgba(255,255,255,0.6);
+        font-size: 11px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+    }
+
+    .reel-title {
+        color: white;
+        font-size: 26px;
+        font-weight: 900;
+        line-height: 1.2;
+        margin-bottom: 16px;
+        letter-spacing: -0.5px;
+    }
+
+    .reel-snippet {
+        color: rgba(255,255,255,0.8);
+        font-size: 15px;
+        line-height: 1.5;
+        margin-bottom: 24px;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .reel-actions {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .reel-read-more {
+        flex: 1;
+        background: white;
+        color: black;
+        padding: 14px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .reel-share-btn {
+        width: 48px;
+        height: 48px;
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 12px;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .reel-content {
+        position: relative;
+        z-index: 10;
+        padding: 40px 24px 140px; /* Increased bottom padding for better visibility above nav */
+        animation: slideUpFade 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    }
+
+    /* Side Actions Styling */
+    .reel-side-actions {
+        position: absolute;
+        right: 12px;
+        bottom: 140px; /* Aligned with content bottom */
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+        z-index: 100;
+    }
+
+    /* Side Actions Styling */
+    .reel-side-actions {
+        position: absolute;
+        right: 12px;
+        bottom: 120px; /* Positioned above the caption area */
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+        z-index: 100;
+    }
+
+    .reel-side-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        background: none;
+        border: none;
+        color: white;
+        transition: transform 0.2s ease;
+    }
+
+    .reel-side-btn:active {
+        transform: scale(0.9);
+    }
+
+    .side-icon-wrapper {
+        width: 48px;
+        height: 48px;
+        background: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .reel-side-btn span {
+        font-size: 11px;
+        font-weight: 700;
+        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+    /* Feed content - better mobile layout */
+    .feed-content-container {
+        padding: 8px !important;
+    }
+
+    .feed-post {
+        max-width: 100% !important;
+        margin: 0 0 12px 0 !important;
+        padding: 16px !important;
+    }
+
+    /* Single post - mobile friendly */
+    .single-post-container {
+        padding: 8px !important;
+    }
+
+    .single-post-header {
+        flex-direction: column !important;
+        gap: 8px !important;
+        margin-bottom: 12px !important;
+    }
+
+    .single-post-header .flex {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .single-post-header button {
+        font-size: 12px !important;
+        padding: 8px 16px !important;
+    }
+
+    /* Navigation - better mobile scrolling */
+    .nav-buttons {
+        padding: 8px 4px !important;
+        gap: 4px !important;
+    }
+
+    /* Search bar - full width on mobile */
+    .search-section {
+        width: 100% !important;
+    }
+
+    .search-section input {
+        font-size: 14px !important;
+        padding: 8px 12px 8px 36px !important;
+    }
+
+
+
+    /* Bottom Navbar - Solid Background on Mobile */
+    .bottom-navbar-wrapper {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: #000000 !important;
+        backdrop-filter: blur(25px) saturate(180%) !important;
+        -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 8px 0 env(safe-area-inset-bottom);
+        z-index: 9999;
+        box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .bottom-navbar {
+        background: transparent !important;
+        display: flex;
+        justify-content: space-around;
+        align-items: center; 
+        width: 100%;
+        padding: 0;
+    }
+
+    .bottom-navbar button {
+        background: transparent;
+        border: none;
+        color: rgba(255, 255, 255, 0.6);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        font-size: 10px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        flex: 1;
+    }
+
+    .bottom-navbar button i {
+        font-size: 24px;
+        margin-bottom: 2px;
+        transition: transform 0.2s ease;
+    }
+
+    .bottom-navbar button:active i {
+        transform: scale(0.9);
+    }
+
+    .bottom-navbar button.active i {
+        color: #3b82f6;
+        text-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
+    }
+
+    .bottom-navbar button.active {
+        color: #3b82f6 !important;
+    }
+
+    .plus-nav-btn {
+        position: relative;
+        top: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .plus-nav-btn i {
+        width: 44px;
+        height: 44px;
+        background: linear-gradient(135deg, #3b82f6, #2563eb);
+        border-radius: 50%;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        color: white !important;
+        font-size: 24px !important;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+        margin-bottom: 2px !important;
+    }
+
+    .plus-nav-btn span {
+        margin-top: 0 !important;
+    }
+
+    .bottom-navbar button span {
+        opacity: 0.8;
+    }
+
+    /* Premium page - mobile layout */
+    .premium-container {
+        padding: 16px 8px !important;
+    }
+
+    .premium-header h1 {
+        font-size: 1.75rem !important;
+    }
+
+    .premium-header p {
+        font-size: 0.875rem !important;
+    }
+
+    /* Gift cards - responsive grid */
+    .gift-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)) !important;
+        gap: 12px !important;
+        padding: 0 !important;
+    }
+
+    .gift-card {
+        padding: 12px !important;
+    }
+
+    .gift-icon {
+        font-size: 2rem !important;
+    }
+
+    .gift-name {
+        font-size: 0.875rem !important;
+    }
+
+    .gift-price {
+        font-size: 0.875rem !important;
+    }
+
+    /* Plan cards - stack on mobile */
+    .plans-grid {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+    }
+
+    /* Modal - full screen on mobile */
+    .modal-overlay {
+        padding: 0 !important;
+    }
+
+    .modal-content {
+        max-width: 100% !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+        height: 100vh !important;
+    }
+
+    /* Floating action button - better positioning */
+    .fab {
+        bottom: 80px !important;
+        right: 16px !important;
+        width: 56px !important;
+        height: 56px !important;
+    }
+
+    /* Scroll to top button - above FAB */
+    .scroll-to-top {
+        bottom: 150px !important;
+        right: 16px !important;
+    }
+
+    /* Phone component - full screen on mobile */
+    .phone-container {
+        width: 100% !important;
+        height: 100vh !important;
+        border-radius: 0 !important;
+    }
+
+    /* Category buttons - better mobile scrolling */
+    .category-buttons {
+        padding: 8px 4px !important;
+        gap: 4px !important;
+    }
+
+    .category-buttons button {
+        padding: 6px 12px !important;
+        font-size: 12px !important;
+    }
+
+    /* Hide Floating AI Assistant button on mobile - use bottom nav instead */
+    .floating-ai-btn {
+        display: none !important;
+    }
+
+    /* Hide redundant Feed button in top nav */
+    .nav-feed-btn {
+        display: none !important;
+    }
+
+    /* Hide redundant AI button in top nav - use bottom nav instead */
+    .nav-ai-btn {
+        display: none !important;
+    }
+}
+
+/* Extra small mobile (≤480px) - Ported from reference */
+@media (max-width: 480px) {
+    .page-content-container {
+        padding: 8px 8px 100px !important;
+    }
+
+    .room-card {
+        padding: 12px !important;
+        border-radius: 20px !important;
+    }
+
+    .room-title {
+        font-size: 1.1rem !important;
+    }
+
+    /* Avatars stay large but slightly adjusted for tiny screens from reference */
+    .room-avatar-circle {
+        width: 70px !important;
+        height: 70px !important;
+    }
+
+    .gift-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)) !important;
+    }
+
+    .nav-buttons button,
+    .nav-buttons a.bmc-button {
+        padding: 5px 10px !important;
+        font-size: 11px !important;
+    }
+}
+
+/* Bottom Navbar - Solid Background from reference */
+.bottom-navbar-wrapper {
+    background: rgba(15, 23, 42, 0.95) !important;
+    backdrop-filter: blur(24px) !important;
+    -webkit-backdrop-filter: blur(24px) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Center Button - Blue Gradient Wrapper from Reference */
+.plus-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+    margin-bottom: 4px;
+}
+
+@media (max-width: 768px) {
+    .floating-action-buttons {
+        bottom: 128px !important; /* Fixed at bottom right as per reference */
+        right: 8px !important;
+        gap: 12px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        z-index: 9999 !important;
+    }
+
+    .floating-action-buttons button {
+        width: 48px !important;
+        height: 48px !important;
+        border-radius: 14px !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4) !important;
+        background: #0f172a !important;
+    }
+
+    .floating-action-buttons i {
+        font-size: 1.25rem !important;
+    }
+
+    /* Nudge room card footer contents left to avoid vertical floating buttons */
+    .room-card div[class*="flex justify-between items-center w-full mt-auto"] {
+        padding-right: 20px !important;
+    }
+}
+
+/* Landscape mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+    .room-card {
+        max-width: 48% !important;
+    }
+
+    .room-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}

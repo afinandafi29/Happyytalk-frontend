@@ -1,0 +1,210 @@
+/* ABOUT US ORIGINAL STYLING */
+.about-us-container {
+  min-height: 100vh;
+  background-color: #1a202c;
+  color: #ffffff;
+  padding: 3rem 1.5rem;
+  font-family: 'Inter', -apple-system, sans-serif;
+}
+
+.about-content {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #2d3748;
+  color: #ffffff;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin-bottom: 2rem;
+  transition: background-color 0.2s;
+  font-weight: 600;
+}
+
+.back-button:hover { background-color: #4a5568; }
+
+.about-title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #63b3ed;
+}
+
+.about-intro {
+  font-size: 1.5rem;
+  text-align: center;
+  color: #e2e8f0;
+  margin-bottom: 4rem;
+  line-height: 1.6;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2rem;
+  margin-bottom: 5rem;
+}
+
+.feature-card {
+  background-color: #2d3748;
+  padding: 2.5rem;
+  border-radius: 1.5rem;
+  text-align: center;
+  transition: transform 0.2s;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.feature-card:hover { transform: translateY(-5px); }
+
+.feature-icon {
+  font-size: 3rem;
+  color: #63b3ed;
+  margin-bottom: 1.5rem;
+}
+
+.feature-card h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.feature-card p {
+  color: #a0aec0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.about-section {
+  background-color: #2d3748;
+  padding: 3.5rem;
+  border-radius: 2rem;
+  margin-bottom: 3.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.about-section h2 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  margin-bottom: 2rem;
+  color: #63b3ed;
+}
+
+.section-text {
+  font-size: 1.25rem;
+  color: #e2e8f0;
+  line-height: 1.8;
+}
+
+.how-it-works {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.step-number {
+  background-color: #63b3ed;
+  color: #1a202c;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.step p {
+  font-size: 1.25rem;
+  color: #e2e8f0;
+}
+
+.contact-invite {
+  text-align: center;
+  padding: 5rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.contact-invite h2 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+}
+
+.contact-invite p {
+  font-size: 1.25rem;
+  color: #a0aec0;
+  margin-bottom: 2.5rem;
+}
+
+.join-button {
+  background-color: #63b3ed;
+  color: #1a202c;
+  border: none;
+  padding: 1.25rem 2.5rem;
+  border-radius: 1rem;
+  font-size: 1.25rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.join-button:hover { opacity: 0.9; }
+
+@media (max-width: 768px) {
+  .about-title { font-size: 2.25rem; }
+  .about-intro { font-size: 1.25rem; }
+  .about-section { padding: 2rem; }
+}
+
+[data-theme='light'] .about-us-container {
+    background-color: #ffffff !important;
+    color: #1a202c !important;
+}
+
+[data-theme='light'] .about-section,
+[data-theme='light'] .feature-card,
+[data-theme='light'] .back-button {
+    background-color: #f7fafc !important;
+    color: #1a202c !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+[data-theme='light'] .section-text,
+[data-theme='light'] .step p,
+[data-theme='light'] .about-intro,
+[data-theme='light'] .feature-card p,
+[data-theme='light'] .contact-invite p {
+    color: #4a5568 !important;
+}
+
+[data-theme='light'] .about-title,
+[data-theme='light'] .about-section h2,
+[data-theme='light'] .feature-icon,
+[data-theme='light'] .step-number {
+    color: #3182ce !important;
+}
+
+[data-theme='light'] .step-number {
+    background-color: #3182ce !important;
+    color: #ffffff !important;
+}
+
+[data-theme='light'] .join-button {
+    background-color: #3182ce !important;
+    color: #ffffff !important;
+}
