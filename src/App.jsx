@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
+import { isConfigured } from './supabase/config';
 import Home from './pages/Home';
 import Layout from './components/Layout/Layout';
 import './styles/main.css';
@@ -100,54 +101,60 @@ function PublicRoute({ children }) {
   return !currentUser ? children : <Navigate to="/" />;
 }
 
-import { isConfigured } from './supabase/config';
+// Configuration warning overlay (shown when Supabase keys are missing)
+function ConfigWarning() {
+  return (
+    <div style={{
+      height: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: '#0f0f0f',
+      color: '#fff',
+      fontFamily: "'Inter', system-ui, sans-serif",
+      textAlign: 'center',
+      padding: '24px',
+      gap: '16px',
+    }}>
+      <div style={{ fontSize: '3rem' }}>⚙️</div>
+      <h1 style={{ color: '#f97316', margin: 0, fontSize: '1.8rem' }}>Configuration Required</h1>
+      <p style={{ maxWidth: '520px', lineHeight: '1.7', color: '#aaa', margin: 0 }}>
+        Happytalk needs your Supabase credentials to function. Add them to your <strong>Netlify Environment Variables</strong> and trigger a new deploy.
+      </p>
+      <div style={{
+        background: '#1a1a1a',
+        border: '1px solid #333',
+        borderRadius: '10px',
+        padding: '20px 28px',
+        textAlign: 'left',
+        width: '100%',
+        maxWidth: '460px',
+      }}>
+        <p style={{ margin: '0 0 8px', color: '#888', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+          Required Variables
+        </p>
+        <code style={{ display: 'block', marginBottom: '8px', color: '#4ade80', fontSize: '0.95rem' }}>VITE_SUPABASE_URL</code>
+        <code style={{ display: 'block', color: '#4ade80', fontSize: '0.95rem' }}>VITE_SUPABASE_ANON_KEY</code>
+        <p style={{ fontSize: '0.78rem', color: '#666', marginTop: '14px', marginBottom: 0 }}>
+          📁 Find these values inside your <code style={{ color: '#aaa' }}>.env</code> file in your local project folder.
+        </p>
+      </div>
+      <p style={{ fontSize: '0.85rem', color: '#555', margin: 0 }}>
+        Netlify Dashboard → Site Settings → Build &amp; Deploy → Environment Variables
+      </p>
+    </div>
+  );
+}
 
 function App() {
   if (!isConfigured) {
-    return (
-      <div style={{
-        height: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#0a0a0a',
-        color: '#fff',
-        fontFamily: 'system-ui, sans-serif',
-        textAlign: 'center',
-        padding: '20px'
-      }}>
-        <h1 style={{ color: '#ff4b4b' }}>⚠️ Configuration Required</h1>
-        <p style={{ maxWidth: '600px', lineHeight: '1.6', color: '#ccc' }}>
-          Welcome to Happytalk! To get the site running on Netlify, you need to add your Supabase credentials 
-          to your Netlify Dashboard.
-        </p>
-        <div style={{
-          backgroundColor: '#1a1a1a',
-          padding: '20px',
-          borderRadius: '8px',
-          marginTop: '20px',
-          textAlign: 'left',
-          width: '100%',
-          maxWidth: '500px'
-        }}>
-          <h3 style={{ marginTop: 0 }}>Add these to Netlify Settings:</h3>
-          <code style={{ display: 'block', marginBottom: '10px', color: '#00ff00' }}>VITE_SUPABASE_URL</code>
-          <code style={{ display: 'block', color: '#00ff00' }}>VITE_SUPABASE_ANON_KEY</code>
-          <p style={{ fontSize: '0.8em', color: '#888', marginTop: '15px' }}>
-            You can find these in the <code>.env</code> file of your <code>Happyytalk-2.2-main 3</code> folder.
-          </p>
-        </div>
-        <p style={{ marginTop: '20px', fontSize: '0.9em' }}>
-          After adding them, trigger a new deploy and this message will disappear!
-        </p>
-      </div>
-    );
+    return <ConfigWarning />;
   }
 
   return (
     <Router>
-      <Suspense fallback={null}>
+      <Suspense fallback={<div style={{ background: '#0f0f0f', height: '100vh' }} />}>
         <Routes>
           {/* Auth routes */}
           <Route path="/in" element={
@@ -195,7 +202,6 @@ function App() {
             <Route path="/premium" element={<PremiumPage />} />
             <Route path="/events" element={<Events />} />
 
-
             {/* News Routes */}
             <Route path="/news" element={<NewsHome />} />
             <Route path="/news/top" element={<NewsTopStories />} />
@@ -216,7 +222,6 @@ function App() {
             {/* Live Route */}
             <Route path="/live" element={<LiveTV />} />
 
-
             {/* Apps Route */}
             <Route path="/apps" element={<Apps />} />
             <Route path="/quizzes" element={<QuizCategories />} />
@@ -224,8 +229,6 @@ function App() {
 
             {/* Learning Route */}
             <Route path="/learning" element={<Learning />} />
-
-            {/* Learning Languages Route */}
             <Route path="/learning-languages" element={<LearningLanguages />} />
             <Route path="/basic-learning" element={<BasicLearning />} />
 
@@ -270,7 +273,7 @@ function App() {
           <Route path="/ai-chat" element={<AIChat />} />
           <Route path="/store" element={<Store />} />
           <Route path="/calendar-app" element={<CalendarApp />} />
-          <Route path="/clock-app" element={<ClockApp /> } />
+          <Route path="/clock-app" element={<ClockApp />} />
           <Route path="/notes-app" element={<NotesApp />} />
           <Route path="/maps" element={<Maps />} />
           <Route path="/countries" element={<Countries />} />
@@ -281,11 +284,11 @@ function App() {
           <Route path="/oto-faq" element={<OneToOneFAQ />} />
           <Route path="/oto-rules" element={<OneToOneRules />} />
 
-          {/* 404 No Found route */}
+          {/* 404 catch-all */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>
-    </Router >
+    </Router>
   );
 }
 
